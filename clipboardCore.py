@@ -1,10 +1,7 @@
 import PyQt4.QtGui as QtGui
 import PyQt4.QtCore as QtCore
 import sys
-
 from clipboardUi import ClipboardTab
-
-
 
 
 class ClipboardCore(ClipboardTab):
