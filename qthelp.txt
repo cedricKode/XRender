@@ -1,1 +1,0 @@
-https://www.tutorialspoint.com/pyqt/pyqt_signals_and_slots.htm
