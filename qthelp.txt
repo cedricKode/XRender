@@ -1,2 +1,3 @@
 https://www.tutorialspoint.com/pyqt/pyqt_signals_and_slots.htm
 http://www.pythoncentral.io/pysidepyqt-tutorialtxt-creating-your-own-signals-and-slots/
+http://pyqt.sourceforge.net/Docs/PyQt4/old_style_signals_slots.html
