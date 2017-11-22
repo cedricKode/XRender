@@ -62,7 +62,103 @@ class sceneGraph(QtGui.QTabWidget):
         
         #Set Close Button widget
         self.CloseBtn = QtGui.QPushButton("Close")
-        self.CloseBtn.clicked.connect(self.clickAction.click)
+        selfclass Signaux(QtCore.QObject):
+7
+    def __init__(self):
+8
+        super(Signaux,self, ).__init__()
+9
+​
+10
+    def click(self):    
+11
+        print "Simple custom signal:",
+12
+        print "No arguments in this type of signal."    
+13
+        
+14
+        
+15
+class sceneGraph(QtGui.QTabWidget):       
+16
+    def __init__(self):
+17
+        super(sceneGraph,self, ).__init__()
+18
+        
+19
+        #Init Signaux Class
+20
+        self.clickAction = Signaux()
+21
+        
+22
+        self.setWindowTitle("XRender")
+23
+        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+24
+        self.resize(1200,600)
+25
+        self.setMinimumSize(600,300)
+26
+​
+27
+        #Widgets
+28
+        #---SCENEGRAPH
+29
+        #Scene List widget---
+30
+        scenaListlabel = QtGui.QLabel("Scenes")
+31
+        self.sceneListWidget = QtGui.QListView()
+32
+        self.sceneListWidget.setDragEnabled(True)
+33
+        
+34
+        #LCD TEST SIGNAL
+35
+        self.lcd = QtGui.QLCDNumber(self)
+36
+        
+37
+        #Search widget 
+38
+        searchSceneLabel = QtGui.QLabel("Search")
+39
+        self.searchSceneWidget = QtGui.QLineEdit()
+40
+        
+41
+        #Custom Slider
+42
+        self.customSliderleft = customSlider()
+43
+           
+44
+        #Stack widget
+45
+        stackLabel = QtGui.QLabel("Stack")
+46
+        self.stackWidget = QtGui.QListWidget()
+47
+        self.stackWidget.setAcceptDrops(True)
+48
+        
+49
+        #Text No Edit
+50
+        self.textNotetextEdit  = QtGui.QPlainTextEdit()
+51
+        
+52
+        #Close Button widget
+53
+        self.CloseBtn = QtGui.QPushButton("Close")
+54
+        self.CloseBtn.clicked.connect(self.clickAction.click).CloseBtn.clicked.connect(self.clickAction.click)
         
         #Set Quit button widget
         self.quitbutton = QtGui.QPushButton("Quit" )
