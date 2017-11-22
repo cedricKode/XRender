@@ -99,8 +99,7 @@ class sceneGraph(QtGui.QTabWidget):
         self.addTab(self.sceneGraphMainWidget, "SceneGraph")
         
         
-
-       
+        
 class customSlider(QtGui.QSlider):
     def __init__(self, mini=0, maxi=100, color=None):
         super(customSlider, self).__init__()
