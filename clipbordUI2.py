@@ -158,3 +158,5 @@ class customSlider(QtGui.QSlider):
         
         
         """
+
+    
