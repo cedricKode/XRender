@@ -7,41 +7,52 @@ class Signaux(QtCore.QObject):
     def __init__(self):
         super(Signaux,self, ).__init__()
 
-    def click(self):    
+    def click(self):
+    
         print "Simple custom signal:",
         print "No arguments in this type of signal."    
+
+    def quitApp(self):
         
-        
-class sceneGraph(QtGui.QTabWidget):       
-    def __init__(self):
-        super(sceneGraph,self, ).__init__()
-        
-        #Init Signaux Class
+        return 
+        """quit()"""
+    
+    
+class sceneGraph(QtGui.QTabWidget):
+    
+    def __init__(self, parent =None):
+        super(sceneGraph,self, ).__init__(parent)
+        self.setMouseTracking(True)
+       
+        #Init Signaux class
         self.clickAction = Signaux()
         
+        #Init Main windows
         self.setWindowTitle("XRender")
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-        self.resize(1200,600)
-        self.setMinimumSize(600,300)
+        self.resize(640,360)
+        self.setMinimumSize(300,150)
 
-        #Widgets
-        #---SCENEGRAPH
-        #Scene List widget---
+
+        #Create Widgets
+        #---SCENEGRAPH---
+        #Add Scene List widget---
         scenaListlabel = QtGui.QLabel("Scenes")
         self.sceneListWidget = QtGui.QListView()
         self.sceneListWidget.setDragEnabled(True)
         
-        #LCD TEST SIGNAL
+        #Add LCD TEST SIGNAL
         self.lcd = QtGui.QLCDNumber(self)
         
-        #Search widget 
+        #Add Search widget 
         searchSceneLabel = QtGui.QLabel("Search")
         self.searchSceneWidget = QtGui.QLineEdit()
         
-        #Custom Slider
+        #import Custom Slider class
         self.customSliderleft = customSlider()
-           
-        #Stack widget
+        self.customSliderleft.valueChanged.connect(self.lcd.display)
+        
+        #Add Stack widget
         stackLabel = QtGui.QLabel("Stack")
         self.stackWidget = QtGui.QListWidget()
         self.stackWidget.setAcceptDrops(True)
@@ -49,29 +60,33 @@ class sceneGraph(QtGui.QTabWidget):
         #Text No Edit
         self.textNotetextEdit  = QtGui.QPlainTextEdit()
         
-        #Close Button widget
+        #Set Close Button widget
         self.CloseBtn = QtGui.QPushButton("Close")
         self.CloseBtn.clicked.connect(self.clickAction.click)
         
-        #Quit button widget
+        #Set Quit button widget
         self.quitbutton = QtGui.QPushButton("Quit" )
         self.quitbutton.clicked.connect(self.clickAction.click)
-        #Main Widget
+        
+        #Add Main Widget
         self.sceneGraphMainWidget = QtGui.QWidget()
         
-        #QpushButton
+        #Add QpushButton  to Layout
         btnLayout = QtGui.QHBoxLayout()
         btnLayout.addWidget(self.CloseBtn ) 
         btnLayout.addWidget(self.quitbutton)
                     
         
         #---Layout init---     
-        #Main Layout
+        #MainWindow/Splitter Layout init 
         mainLayout = QtGui.QHBoxLayout()
-        vboxLeft = QtGui.QVBoxLayout()
-        vboxRight = QtGui.QVBoxLayout()
+        self.splitterRight = QtGui.QSplitter(QtCore.Qt.Vertical)
+        self.splitterRight.setChildrenCollapsible(False)
+
+        
                    
-        # Left Layout        
+        # Left Layout
+        vboxLeft = QtGui.QVBoxLayout()        
         vboxLeft.addWidget(scenaListlabel)
         vboxLeft.addWidget(self.sceneListWidget)
         vboxLeft.addWidget(self.lcd)
@@ -82,36 +97,41 @@ class sceneGraph(QtGui.QTabWidget):
         vboxLeft.addLayout(btnLayout)
         vboxLeft.addLayout(searchLayout)
                 
+                
         # Right Layout
-        vboxRight.addWidget(stackLabel)
-        vboxRight.addWidget(self.stackWidget)
-        vboxRight.addWidget(self.textNotetextEdit)
+        self.splitterRight.addWidget(stackLabel)
+        self.splitterRight.addWidget(self.stackWidget)
+        self.splitterRight.addWidget(self.textNotetextEdit)
             
-        # Add Layouts to main Layout        
+
+        
+        # Add Layouts to Main Layout        174
         mainLayout.addLayout(vboxLeft)
-        #mainLayout.addLayout(vboxRight)
-        #mainLayout.addLayout(mainLayoutRight)
-             
+        mainLayout.addWidget(self.splitterRight)
+
+
         # set main Layout to main Widget
         self.sceneGraphMainWidget.setLayout(mainLayout)
-        
+    
         # Add table to Main Window
         self.addTab(self.sceneGraphMainWidget, "SceneGraph")
-        
-        
+           
         
 class customSlider(QtGui.QSlider):
     def __init__(self, mini=0, maxi=100, color=None):
-        super(customSlider, self).__init__()
+        super(customSlider, self).__init__(QtCore.Qt.Horizontal)
         
+        #self.ticks = Ticks(mini, maxi)
+        self.setValue(mini)
         self.mini = mini
         self.maxi = maxi
-        self.setStyleSheet(self.stylesheet())
-        self.setOrientation(QtCore.Qt.Horizontal)
+        self.setMinimum(mini *10)
+        self.setMaximum(maxi * 10)
         self.setTickPosition(QtGui.QSlider.TicksAbove)
+        #self.setTickInterval((maxi - mini) / 10)
         self.setMouseTracking(True)
-        self.setMouseTracking(True)
-             
+        self.setStyleSheet(self.stylesheet())
+        
     #Layout
     def sliderLayout(self):
         self.slider = customSlider()        
@@ -128,9 +148,7 @@ class customSlider(QtGui.QSlider):
         background: orange;
         }
         
-        QSlider::handle:horizontal {        # Slots connector
-28
-
+        QSlider::handle:horizontal {
         border: 1px solid black;
         height: 4px;
         width: 3px;
@@ -145,10 +163,9 @@ class customSlider(QtGui.QSlider):
         height: 5px;
         border: 1px solid black;
         border-radius: 3px;
-        }
-        
-        
+        }    
         """
+        
 
 
              
