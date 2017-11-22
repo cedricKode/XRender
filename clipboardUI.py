@@ -165,3 +165,4 @@ class customSlider(QtGui.QSlider):
         border-radius: 3px;
         }    
         """
+    
