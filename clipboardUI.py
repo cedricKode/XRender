@@ -22,17 +22,18 @@ class sceneGraph(QtGui.QTabWidget):
     
     def __init__(self, parent =None):
         super(sceneGraph,self, ).__init__(parent)
-        self.setMouseTracking(True)
+        #self.setMouseTracking(True)
        
         #Init Signaux class
         self.clickAction = Signaux()
         
         #Init Main windows
+        self.setObjectName("SceneGraph")
         self.setWindowTitle("XRender")
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.resize(640,360)
         self.setMinimumSize(300,150)
-
+        self.setStyleSheet(self.sceneGraphStylesheet())
 
         #Create Widgets
         #---SCENEGRAPH---
@@ -116,6 +117,67 @@ class sceneGraph(QtGui.QTabWidget):
         # Add table to Main Window
         self.addTab(self.sceneGraphMainWidget, "SceneGraph")
            
+           
+    def sceneGraphStylesheet(self):
+        #import a text file with style sheet
+        #text = open("style.txt")
+        #self.setStylesheet(text)
+        return """ 
+        
+        *{
+        font : bold 11px;
+        color : rgb(224,224,224);
+        }
+        
+        QPushButton{
+        color : black;
+        background-color: orange;
+        border-style: inset;
+        border-width: 1.6px;
+        border-radius: 5px;
+        border-color: black;
+        font: bold 10px ;
+        min-width: 10em;
+        padding: 2px;
+        }
+                
+        QPushButton::pressed{        
+        background-color : black;
+        border-style: inset; 
+        border-width: 1px; 
+        color : white;     
+        }
+        
+        sceneGraph{
+        background: rgb(80,80,80);
+        border-color: black;
+        }
+        
+        QLineEdit{
+        color :  white;
+        font  : bold 10px; 
+        background: rgb(112,112,112);
+        }
+        
+        QLineEdit{
+        color :  white;
+        font  : bold 10px; 
+        background: rgb(96,96,96);
+        }
+        
+        QLineEdit:hover{
+        background: rgb(8,8,8);
+        }
+        
+        QListWidget,QPlainTextEdit,QListView {
+        background : rgb(70,70,70);
+        
+        }
+        
+        QLCDNumber{
+        background : rgb(40,40,40);
+        }
+        """
         
 class customSlider(QtGui.QSlider):
     def __init__(self, mini=0, maxi=100, color=None):
@@ -130,7 +192,7 @@ class customSlider(QtGui.QSlider):
         self.setTickPosition(QtGui.QSlider.TicksAbove)
         #self.setTickInterval((maxi - mini) / 10)
         self.setMouseTracking(True)
-        self.setStyleSheet(self.stylesheet())
+        self.setStyleSheet(self.sliderStylesheet())
         
     #Layout
     def sliderLayout(self):
@@ -139,7 +201,7 @@ class customSlider(QtGui.QSlider):
         sliderLayout.addWidget(self.slider)
         self.setLayout(sliderLayout)
         
-    def stylesheet(self):
+    def sliderStylesheet(self):
         return """ 
         QSlider::groove:horizontal {
         height: 4px;
