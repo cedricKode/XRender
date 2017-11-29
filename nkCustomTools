@@ -10,8 +10,8 @@ class Signaux(QtCore.QObject):
 
     def click(self):
     
-        print "Simple custom signal:",
-        print "No arguments in this type of signal."    
+        print "Yeaahh you create a Click \o/ "
+ 
 
     def quitApp(self):
         
