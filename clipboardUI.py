@@ -9,14 +9,13 @@ class Signaux(QtCore.QObject):
 
     def click(self):
     
-        print "Simple custom signal:",
-        print "No arguments in this type of signal."    
+        print "Yeah \m/:",
+        print "you get a click"    
 
     def quitApp(self):
         
-        return 
-        """quit()"""
-    
+
+        print "Wanna quit ? "
     
 class sceneGraph(QtGui.QTabWidget):
     
@@ -29,7 +28,7 @@ class sceneGraph(QtGui.QTabWidget):
         
         #Init Main windows
         self.setObjectName("SceneGraph")
-        self.setWindowTitle("XRender")
+        self.setWindowTitle("Nuke_Tool")
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.resize(640,360)
         self.setMinimumSize(300,150)
@@ -43,8 +42,10 @@ class sceneGraph(QtGui.QTabWidget):
         self.sceneListWidget.setDragEnabled(True)
         
         #Add LCD TEST SIGNAL
-        self.lcd = QtGui.QLCDNumber(self)
-        
+        self.lcd = QtGui.QLCDNumber()
+        #self.lcd.setDigitCount(1)
+    
+    
         #Add Search widget 
         searchSceneLabel = QtGui.QLabel("Search")
         self.searchSceneWidget = QtGui.QLineEdit()
@@ -67,7 +68,7 @@ class sceneGraph(QtGui.QTabWidget):
         
         #Set Quit button widget
         self.quitbutton = QtGui.QPushButton("Quit" )
-        self.quitbutton.clicked.connect(self.clickAction.click)
+        self.quitbutton.clicked.connect(self.clickAction.quitApp)
         
         #Add Main Widget
         self.sceneGraphMainWidget = QtGui.QWidget()
@@ -180,20 +181,39 @@ class sceneGraph(QtGui.QTabWidget):
         """
         
 class customSlider(QtGui.QSlider):
-    def __init__(self, mini=0, maxi=100, color=None):
+    def __init__(self, mini=0, maxi=100):
         super(customSlider, self).__init__(QtCore.Qt.Horizontal)
+        """Init
+        :param  mini: maximum value
+        :param  maxi: minimum value
+        :param  width : slider's  width
+        :param  color: slider's color
+        :param  event.x : position of the  mouse on the X axis
+        :param  value : set the handle value  for the position
+        """
         
-        #self.ticks = Ticks(mini, maxi)
         self.setValue(mini)
+
+        self.setMinimum(mini )
+        self.setMaximum(maxi )
+        self.width = float(maxi - mini)
+        self.setMouseTracking(True)
         self.mini = mini
         self.maxi = maxi
-        self.setMinimum(mini *10)
-        self.setMaximum(maxi * 10)
-        self.setTickPosition(QtGui.QSlider.TicksAbove)
+        #self.ticks = Ticks(mini, maxi)
         #self.setTickInterval((maxi - mini) / 10)
-        self.setMouseTracking(True)
+        #self.setTickPosition(QtGui.QSlider.TicksAbove)
+        
         self.setStyleSheet(self.sliderStylesheet())
         
+    def mousePressEvent(self, event):
+        """Overide the mousePressEvent 
+        """
+        value = self.width / self.size().width() * event.x() * 1000
+        value = value + self.mini * 1000
+        self.setValue(value)
+        super(customSlider, self).mousePressEvent(event)
+
     #Layout
     def sliderLayout(self):
         self.slider = customSlider()        
